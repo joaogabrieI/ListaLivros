@@ -23,6 +23,32 @@ class BookController extends Controller
     public function store(Request $request)
     {
         Book::create($request->all());
-        return redirect('dashboard');
+        return to_route('dashboard');
+    }
+
+    public function destroy(Book $book)
+    {
+        Book::destroy($book->id);
+        return to_route('dashboard');
+    }
+
+    public function edit(Book $book)
+    {
+        return view('books.edit')->with([
+            'book' => $book
+        ]);
+    }
+
+    public function update(Book $book, Request $request)
+    {
+        $book->fill($request->all())->save();
+        return to_route('dashboard');
+    }
+
+    public function show(Book $book)
+    {
+        return view('books.show')->with([
+            'book' => $book
+        ]);
     }
 }
